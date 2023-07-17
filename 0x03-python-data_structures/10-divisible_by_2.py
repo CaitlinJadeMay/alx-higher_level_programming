@@ -1,20 +1,20 @@
 #!/usr/bin/python3
-# 9-max_integer.py
+# 10-divisible_by_2.py
 
-def max_integer(my_list=[]):
+def divisible_by_2(my_list=[]):
 
-    """Find the biggest integer of a list."""
+    """Find all multiples of 2 in a list."""
 
-    if len(my_list) == 0:
-
-        return (None)
-
-    big = my_list[0]
+    multiples = []
 
     for i in range(len(my_list)):
 
-        if my_list[i] > big:
+        if my_list[i] % 2 == 0:
 
-            big = my_list[i]
+            multiples.append(True)
 
-    return (big)
+        else:
+
+            multiples.append(False)
+
+    return (multiples)
