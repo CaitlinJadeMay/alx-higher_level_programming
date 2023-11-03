@@ -1,23 +1,20 @@
 #!/usr/bin/python3
-"""takes in a letter and sends a POST request
-to http://0.0.0.0:5000/search_user with the letter as a p >Parameter
+"""Lists the 10 most recent commits on a given GitHub repository.
 """
+import sys
+import requests
+
+
 if __name__ == "__main__":
-    import sys
-    import requests
-    if len(sys.argv) > 1:
-        value = sys.argv[1]
-    else:
-        value = ""
-    params = {'q': value}
-    url = 'http://0.0.0.0:5000/search_user'
-    r = requests.post(url, data=params)
-    if r.headers.get('content-type') == 'application/json':
-        if r.json() == {}:
-            print("No result")
-        else:
-            id_ = r.json().get('id')
-            name = r.json().get('name')
-            print("[{}] {}".format(id_, name))
-    else:
-        print("Not a valid JSON")
+    url = "https://api.github.com/repos/{}/{}/commits".format(
+        sys.argv[2], sys.argv[1])
+
+    r = requests.get(url)
+    commits = r.json()
+    try:
+        for i in range(10):
+            print("{}: {}".format(
+                commits[i].get("sha"),
+                commits[i].get("commit").get("author").get("name")))
+    except IndexError:
+        pass
